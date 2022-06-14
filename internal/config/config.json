@@ -1,0 +1,16 @@
+{
+  "host": "0.0.0.0",
+  "port": 8080,
+  "shutdown_timeout": 10,
+  "database": {
+    "db_name": "admin",
+    "db_user": "root",
+    "db_pass": "rootpassword",
+    "db_dsn": "mongodb://mongo:mongo@host.docker.internal:27017/admin?compressors=disabled&gssapiServiceName=mongodb"
+  },
+  "kafka": {
+    "broker": "host.docker.internal:9092",
+    "topic": "sports_news"
+  }
+}
+
