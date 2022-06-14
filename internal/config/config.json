@@ -2,6 +2,7 @@
   "host": "0.0.0.0",
   "port": 8080,
   "shutdown_timeout": 10,
+  "sports_news_url": "https://www.brentfordfc.com/api/incrowd/getnewlistinformation?count=50",
   "database": {
     "db_name": "admin",
     "db_user": "root",
