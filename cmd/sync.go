@@ -3,8 +3,9 @@ package main
 import (
 	"context"
 	"github.com/patriciabonaldy/big_queue/pkg/kafka"
+	"github.com/patriciabonaldy/sports-news/internal/platform/genericClient"
 	"github.com/patriciabonaldy/sports-news/internal/platform/pubsub"
-	"github.com/patriciabonaldy/sports-news/internal/platform/syncer/news"
+	"github.com/patriciabonaldy/sports-news/internal/platform/syncer/brentfordFC"
 	"github.com/pkg/errors"
 	"github.com/robfig/cron/v3"
 	"strings"
@@ -37,8 +38,9 @@ func providerNews(cfg *config.Config, log logger.Logger) func() {
 		ctx := context.Background()
 		publisher := kafka.NewPublisher(strings.Split(cfg.Kafka.Broker, ","), cfg.Kafka.Topic)
 		producer := pubsub.NewProducer(publisher)
+		client := genericClient.New()
 
-		s := news.NewSyncer(nil, producer, log, cfg)
+		s := brentfordFC.NewSyncer(client, producer, log, cfg)
 		if err := s.Sync(ctx); err != nil {
 			log.Error(err)
 		}
