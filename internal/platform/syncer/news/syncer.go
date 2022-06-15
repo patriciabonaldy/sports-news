@@ -1,9 +1,10 @@
-package sync_news
+package news
 
 import (
 	"context"
 	"encoding/json"
 	"encoding/xml"
+	"github.com/patriciabonaldy/sports-news/internal/config"
 	"io"
 
 	"github.com/patriciabonaldy/sports-news/internal/platform/genericClient"
@@ -13,16 +14,21 @@ import (
 )
 
 type SyncerNews struct {
-	log      logger.Logger
 	client   genericClient.Client
 	producer pubsub.Producer
+	log      logger.Logger
 	url      string
 }
 
 var _ syncer.Syncer = &SyncerNews{}
 
-func NewSyncerNews(log logger.Logger, client genericClient.Client, url string) syncer.Syncer {
-	return &SyncerNews{log: log, client: client, url: url}
+func NewSyncer(client genericClient.Client, producer pubsub.Producer, log logger.Logger, config *config.Config) syncer.Syncer {
+	return &SyncerNews{
+		client:   client,
+		producer: producer,
+		log:      log,
+		url:      config.SportsNewsURL,
+	}
 }
 
 func (s *SyncerNews) Sync(ctx context.Context) error {

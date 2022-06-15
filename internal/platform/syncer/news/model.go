@@ -1,4 +1,4 @@
-package sync_news
+package news
 
 import "encoding/xml"
 

@@ -1,7 +1,20 @@
 version: "3.8"
 
 services:
-
+  api:
+    image: sports-news:latest
+    container_name: sports-news
+    restart: on-failure
+    depends_on:
+      - mongo
+      - broker
+      - zookeeper
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./db:/home/db
+    networks:
+      - products_network
 
   mongo:
     image: mongo:latest

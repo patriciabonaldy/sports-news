@@ -22,7 +22,7 @@ type Kafka struct {
 type Config struct {
 	Host            string    `json:"host"`
 	Port            int       `json:"port"`
-	SportsNewsURL   int       `json:"sports_news_url"`
+	SportsNewsURL   string    `json:"sports_news_url"`
 	ShutdownTimeout int       `json:"shutdown_timeout"`
 	Database        *Database `json:"database"`
 	Kafka           *Kafka    `json:"kafka"`
