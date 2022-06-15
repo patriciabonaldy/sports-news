@@ -24,18 +24,18 @@ type Storage interface {
 
 // ArticleNews is a structure of article to be stored
 type ArticleNews struct {
-	NewsID            string
-	Title             string
-	Subtitle          string
-	BodyText          string
-	GalleryImageURLs  string
-	VideoURL          string
-	Taxonomies        string
-	TeaserText        string
-	ThumbnailImageURL string
-	PublishDate       string
-	IsPublished       bool
-	CreateAt          time.Time
+	NewsID            string    `json:"news_id"`
+	Title             string    `json:"title"`
+	Subtitle          string    `json:"subtitle"`
+	BodyText          string    `json:"body_text"`
+	GalleryImageURLs  string    `json:"gallery_image_urls"`
+	VideoURL          string    `json:"video_url"`
+	Taxonomies        string    `json:"taxonomies"`
+	TeaserText        string    `json:"teaser_text"`
+	ThumbnailImageURL string    `json:"thumbnail_image_url"`
+	PublishDate       string    `json:"publish_date"`
+	IsPublished       bool      `json:"is_published"`
+	CreateAt          time.Time `json:"create_at"`
 }
 
 func NewArticle() ArticleNews {
