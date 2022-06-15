@@ -1,4 +1,4 @@
-package BrentfordFC
+package brentfordFC
 
 import (
 	"context"
