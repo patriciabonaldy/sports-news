@@ -1,4 +1,4 @@
-package news
+package BrentfordFC
 
 import "encoding/xml"
 
@@ -18,7 +18,7 @@ type newsletterNews struct {
 type article struct {
 	Text              string `xml:",chardata"`
 	ArticleURL        string `xml:"ArticleURL"`
-	NewsArticleID     string `xml:"NewsArticleID"`
+	NewsArticleID     string `xml:"NewsID"`
 	PublishDate       string `xml:"PublishDate"`
 	Taxonomies        string `xml:"Taxonomies"`
 	TeaserText        string `xml:"TeaserText"`

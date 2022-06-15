@@ -1,4 +1,4 @@
-package news
+package BrentfordFC
 
 import (
 	"context"
@@ -35,7 +35,7 @@ func (m mockClient) Get(_ context.Context, _ string) (resp *http.Response, err e
 <NewsletterNewsItems>
 	<NewsletterNewsItem>
 		<ArticleURL>https://www.brentfordfc.com/news/2022/june/international-round-up-15.06.22/</ArticleURL>
-		<NewsArticleID>641772</NewsArticleID>
+		<NewsID>641772</NewsID>
 		<PublishDate>2022-06-15 10:00:00</PublishDate>
 		<Taxonomies>Players</Taxonomies>
 		<TeaserText></TeaserText>
@@ -47,7 +47,7 @@ func (m mockClient) Get(_ context.Context, _ string) (resp *http.Response, err e
 	</NewsletterNewsItem>
 	<NewsletterNewsItem>
 		<ArticleURL>https://www.brentfordfc.com/news/2022/june/202122---brentfords-fourth-highest-league-finish/</ArticleURL>
-		<NewsArticleID>641745</NewsArticleID>
+		<NewsID>641745</NewsID>
 		<PublishDate>2022-06-15 08:00:00</PublishDate>
 		<Taxonomies>History</Taxonomies>
 		<TeaserText></TeaserText>
