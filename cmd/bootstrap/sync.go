@@ -3,9 +3,10 @@ package bootstrap
 import (
 	"context"
 
+	"strings"
+
 	"github.com/pkg/errors"
 	"github.com/robfig/cron/v3"
-	"strings"
 
 	"github.com/patriciabonaldy/big_queue/pkg/kafka"
 	"github.com/patriciabonaldy/sports-news/internal/config"

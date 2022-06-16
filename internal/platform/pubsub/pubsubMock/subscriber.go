@@ -14,15 +14,6 @@ type Subscriber struct {
 }
 
 // Subscriber provides a mock function with given fields: ctx, callback
-func (_m *Subscriber) Subscriber(ctx context.Context, callback func(context.Context, interface{}) error) error {
-	ret := _m.Called(ctx, callback)
-
-	var r0 error
-	if rf, ok := ret.Get(0).(func(context.Context, func(context.Context, interface{}) error) error); ok {
-		r0 = rf(ctx, callback)
-	} else {
-		r0 = ret.Error(0)
-	}
-
-	return r0
+func (_m *Subscriber) Subscriber(ctx context.Context, callback func(context.Context, interface{}) error) {
+	_m.Called(ctx, callback)
 }

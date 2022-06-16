@@ -22,8 +22,8 @@ func NewBrenfordSubscriber(pipeline Pipeline, subscriber pubsub.Subscriber, log 
 	}
 }
 
-func (s *service) Start(ctx context.Context) error {
-	return s.subscriber.Subscriber(ctx, s.callBack)
+func (s *service) Start(ctx context.Context) {
+	s.subscriber.Subscriber(ctx, s.callBack)
 }
 
 func (s *service) callBack(ctx context.Context, message interface{}) error {

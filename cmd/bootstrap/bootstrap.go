@@ -52,7 +52,11 @@ func Run() error {
 	handler := handler.New(svc, logger)
 	ctx, srv := server.New(ctx, cfg, handler)
 
-	runBrenfordSubscriber(ctx, cfg, repository, logger)
+	err = runBrenfordSubscriber(ctx, cfg, repository, logger)
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	c.Start()
 
 	return srv.Run(ctx)

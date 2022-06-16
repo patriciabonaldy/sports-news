@@ -14,7 +14,7 @@ type subscriber struct {
 }
 
 type Subscriber interface {
-	Subscriber(ctx context.Context, callback func(ctx context.Context, message interface{}) error) error
+	Subscriber(ctx context.Context, callback func(ctx context.Context, message interface{}) error)
 }
 
 //go:generate mockery --case=snake --outpkg=pubsubMock --output=pubsubMock --name=Subscriber
@@ -28,7 +28,7 @@ func NewSubscriber(consumer pkg.Consumer, log logger.Logger) Subscriber {
 	return &p
 }
 
-func (s subscriber) Subscriber(ctx context.Context, callback func(ctx context.Context, message interface{}) error) error {
+func (s subscriber) Subscriber(ctx context.Context, callback func(ctx context.Context, message interface{}) error) {
 	chMsg := make(chan pkg.Message)
 	chErr := make(chan error)
 	go func() {

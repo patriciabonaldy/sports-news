@@ -57,7 +57,7 @@ func (p *pipeLine) taskFetch(ctx context.Context, data []NewsletterNewsItem) cha
 	ch1 := make(chan []byte)
 	for _, d := range data {
 		go func(ch chan []byte, id string) {
-			resp, err := p.client.Get(ctx, fmt.Sprintf("https://www.brentfordfc.com/api/incrowd/getnewsarticleinformation?id=%s", d.NewsArticleID))
+			resp, err := p.client.Get(ctx, fmt.Sprintf("https://www.brentfordfc.com/api/incrowd/getnewsarticleinformation?id=%s", id))
 			if err != nil {
 				p.log.Errorf("error fetch - sync articleID %s, error %s", id, err)
 				return
