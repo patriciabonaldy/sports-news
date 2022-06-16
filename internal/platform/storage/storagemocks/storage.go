@@ -15,14 +15,16 @@ type Storage struct {
 }
 
 // GetArticleByID provides a mock function with given fields: ctx, ID
-func (_m *Storage) GetArticleByID(ctx context.Context, ID string) (internal.ArticleNews, error) {
+func (_m *Storage) GetArticleByID(ctx context.Context, ID string) (*internal.ArticleNews, error) {
 	ret := _m.Called(ctx, ID)
 
-	var r0 internal.ArticleNews
-	if rf, ok := ret.Get(0).(func(context.Context, string) internal.ArticleNews); ok {
+	var r0 *internal.ArticleNews
+	if rf, ok := ret.Get(0).(func(context.Context, string) *internal.ArticleNews); ok {
 		r0 = rf(ctx, ID)
 	} else {
-		r0 = ret.Get(0).(internal.ArticleNews)
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*internal.ArticleNews)
+		}
 	}
 
 	var r1 error

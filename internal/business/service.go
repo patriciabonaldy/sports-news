@@ -32,7 +32,7 @@ func (s service) GetArticleByID(ctx context.Context, articleID string) (*interna
 		return nil, err
 	}
 
-	return &article, nil
+	return article, nil
 }
 
 func (s service) GetArticles(ctx context.Context) ([]internal.ArticleNews, error) {

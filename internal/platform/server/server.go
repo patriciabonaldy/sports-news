@@ -58,7 +58,7 @@ func (s *Server) registerRoutes() {
 	articles := s.engine.Group("/articles")
 	{
 		articles.GET("", s.handler.GetArticles())
-		articles.GET("/:id", s.handler.GetArticles())
+		articles.GET("/:id", s.handler.GetArticleByID())
 	}
 }
 

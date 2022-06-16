@@ -26,7 +26,7 @@ func Test_service_GetArticleByID(t *testing.T) {
 			repo: func() internal.Storage {
 				repoMock := new(storagemocks.Storage)
 				repoMock.On("GetArticleByID", mock.Anything, mock.Anything).
-					Return(internal.ArticleNews{}, errors.New("something unexpected happened"))
+					Return(&internal.ArticleNews{}, errors.New("something unexpected happened"))
 
 				return repoMock
 
@@ -42,7 +42,7 @@ func Test_service_GetArticleByID(t *testing.T) {
 				mockA := mockArticle()
 				repoMock := new(storagemocks.Storage)
 				repoMock.On("GetArticleByID", mock.Anything, mock.Anything).
-					Return(mockA, nil)
+					Return(&mockA, nil)
 
 				return repoMock
 

@@ -38,10 +38,14 @@ func (p *pipeLine) Process(ctx context.Context, data []NewsletterNewsItem) {
 	go func(ch2 chan NewsArticleInformation) {
 		for m := range ch2 {
 			article := toArticle(m)
-			err := p.repository.Save(ctx, article)
+			_, err := p.repository.GetArticleByID(ctx, article.NewsID)
 			if err != nil {
-				p.log.Errorf("error CreateArticleNews %s", err.Error())
+				err = p.repository.Save(ctx, article)
+				if err != nil {
+					p.log.Errorf("error Create ArticleNews %s", err.Error())
+				}
 			}
+
 			wg.Done()
 		}
 	}(ch2)

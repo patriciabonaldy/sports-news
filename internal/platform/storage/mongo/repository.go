@@ -14,7 +14,7 @@ import (
 	"github.com/patriciabonaldy/sports-news/internal/platform/logger"
 )
 
-const eventCollectionName = "event"
+const collectionName = "article"
 
 // Repository is a mongo EventRepository implementation.
 type Repository struct {
@@ -49,8 +49,7 @@ func NewDBStorage(ctx context.Context, cfg *config.Database, log logger.Logger) 
 }
 
 func (r *Repository) GetArticles(ctx context.Context) ([]internal.ArticleNews, error) {
-	opts := options.Find()
-	cursor, err := r.getCollection(eventCollectionName).Find(context.TODO(), bson.M{}, opts)
+	cursor, err := r.getCollection(collectionName).Find(context.TODO(), bson.M{})
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -77,25 +76,26 @@ func (r *Repository) GetArticles(ctx context.Context) ([]internal.ArticleNews, e
 	return results, nil
 }
 
-func (r *Repository) GetArticleByID(ctx context.Context, articleID string) (internal.ArticleNews, error) {
+func (r *Repository) GetArticleByID(ctx context.Context, articleID string) (*internal.ArticleNews, error) {
 	var result ArticleNews
 
-	err := r.getCollection(eventCollectionName).
+	err := r.getCollection(collectionName).
 		FindOne(ctx, bson.M{"article_id": articleID}).Decode(&result)
 	if err != nil {
 		if errors.Is(err, mongo.ErrNoDocuments) {
-			return internal.ArticleNews{}, internal.ErrArticleNotFound
+			return nil, internal.ErrArticleNotFound
 		}
 
-		return internal.ArticleNews{}, err
+		return nil, err
 	}
 
-	return parseToBusinessArticleNews(result), nil
+	art := parseToBusinessArticleNews(result)
+	return &art, nil
 }
 
 func (r *Repository) Save(ctx context.Context, article internal.ArticleNews) error {
 	articleDB := parseToArticleNewsDB(article)
-	_, err := r.getCollection(eventCollectionName).InsertOne(ctx, articleDB)
+	_, err := r.getCollection(collectionName).InsertOne(ctx, articleDB)
 	if err != nil {
 		return err
 	}

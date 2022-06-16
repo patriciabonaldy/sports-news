@@ -16,7 +16,7 @@ var (
 )
 
 type Storage interface {
-	GetArticleByID(ctx context.Context, ID string) (ArticleNews, error)
+	GetArticleByID(ctx context.Context, ID string) (*ArticleNews, error)
 	Save(ctx context.Context, news ArticleNews) error
 	GetArticles(ctx context.Context) ([]ArticleNews, error)
 }
