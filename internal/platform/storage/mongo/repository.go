@@ -80,7 +80,7 @@ func (r *Repository) GetArticleByID(ctx context.Context, articleID string) (inte
 	var result ArticleNews
 
 	err := r.getCollection(eventCollectionName).
-		FindOne(ctx, bson.M{"answer_id": articleID}).Decode(&result)
+		FindOne(ctx, bson.M{"article_id": articleID}).Decode(&result)
 	if err != nil {
 		if errors.Is(err, mongo.ErrNoDocuments) {
 			return internal.ArticleNews{}, internal.ErrArticleNotFound

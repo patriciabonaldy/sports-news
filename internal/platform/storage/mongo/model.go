@@ -11,7 +11,7 @@ import (
 
 // ArticleNews is a structure of article to be stored
 type ArticleNews struct {
-	ArticleID         string              `bson:"answer_id"`
+	ArticleID         string              `bson:"article_id"`
 	Title             string              `bson:"title"`
 	Subtitle          string              `bson:"subtitle,omitempty"`
 	BodyText          string              `bson:"body_text,omitempty"`
@@ -30,21 +30,21 @@ func (a *ArticleNews) createAt() time.Time {
 }
 
 func parseToBusinessArticleNews(result ArticleNews) internal.ArticleNews {
-	answer := internal.ArticleNews{
+	article := internal.ArticleNews{
 		NewsID:   result.ArticleID,
 		CreateAt: result.createAt(),
 	}
 
-	return answer
+	return article
 }
 
 func parseToArticleNewsDB(result internal.ArticleNews) ArticleNews {
-	answer := ArticleNews{
+	article := ArticleNews{
 		ArticleID: result.NewsID,
 		CreateAt: primitive.Timestamp{
 			T: uint32(result.CreateAt.Unix()),
 		},
 	}
 
-	return answer
+	return article
 }
