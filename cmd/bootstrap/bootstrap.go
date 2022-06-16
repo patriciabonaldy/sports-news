@@ -7,11 +7,12 @@ import (
 	"strings"
 	"time"
 
+	"github.com/patriciabonaldy/sports-news/cmd/bootstrap/config"
+
 	"github.com/robfig/cron/v3"
 
 	"github.com/patriciabonaldy/big_queue/pkg/kafka"
 	"github.com/patriciabonaldy/sports-news/internal/business"
-	"github.com/patriciabonaldy/sports-news/internal/config"
 	"github.com/patriciabonaldy/sports-news/internal/platform/genericClient"
 	"github.com/patriciabonaldy/sports-news/internal/platform/logger"
 	"github.com/patriciabonaldy/sports-news/internal/platform/pubsub"

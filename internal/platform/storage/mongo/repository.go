@@ -4,13 +4,14 @@ import (
 	"context"
 	"log"
 
+	"github.com/patriciabonaldy/sports-news/cmd/bootstrap/config"
+
 	"github.com/pkg/errors"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"gopkg.in/mgo.v2/bson"
 
 	"github.com/patriciabonaldy/sports-news/internal"
-	"github.com/patriciabonaldy/sports-news/internal/config"
 	"github.com/patriciabonaldy/sports-news/internal/platform/logger"
 )
 

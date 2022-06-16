@@ -9,9 +9,10 @@ import (
 	"os/signal"
 	"time"
 
+	"github.com/patriciabonaldy/sports-news/cmd/bootstrap/config"
+
 	"github.com/gin-gonic/gin"
 
-	"github.com/patriciabonaldy/sports-news/internal/config"
 	"github.com/patriciabonaldy/sports-news/internal/platform/server/handler"
 )
 

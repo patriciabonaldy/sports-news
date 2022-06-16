@@ -11,7 +11,7 @@
   },
   "kafka": {
     "broker": "host.docker.internal:9092",
-    "topic": "sports_news"
+    "topic": "sportsnews"
   }
 }
 

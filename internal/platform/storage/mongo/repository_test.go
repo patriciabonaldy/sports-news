@@ -8,6 +8,8 @@ import (
 	"reflect"
 	"testing"
 
+	"github.com/patriciabonaldy/sports-news/cmd/bootstrap/config"
+
 	"github.com/ory/dockertest/v3"
 	"github.com/ory/dockertest/v3/docker"
 	"github.com/stretchr/testify/assert"
@@ -16,7 +18,6 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 
 	"github.com/patriciabonaldy/sports-news/internal"
-	"github.com/patriciabonaldy/sports-news/internal/config"
 	"github.com/patriciabonaldy/sports-news/internal/platform/logger"
 )
 
