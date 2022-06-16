@@ -1,4 +1,4 @@
-package main
+package bootstrap
 
 import (
 	"context"
@@ -15,7 +15,7 @@ import (
 )
 
 const (
-	newsSyncCronSpec = "1 * * * *"
+	newsSyncCronSpec = "* * * * *"
 )
 
 func sync(cfg *config.Config, cron *cron.Cron, log logger.Logger) error {
