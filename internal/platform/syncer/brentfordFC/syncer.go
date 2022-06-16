@@ -39,7 +39,7 @@ func (s *SyncerNews) Sync(ctx context.Context) error {
 	}
 
 	defer resp.Body.Close()
-	var newListInf newListInformation
+	var newListInf NewListInformation
 	data, err := io.ReadAll(resp.Body)
 	if err != nil {
 		s.log.Errorf("error read body - sync %s", err)
@@ -52,7 +52,7 @@ func (s *SyncerNews) Sync(ctx context.Context) error {
 		return err
 	}
 
-	m, err := generateMessage(newListInf.NewsletterNews.Article)
+	m, err := generateMessage(newListInf.NewsletterNewsItems.NewsletterNewsItem)
 	if err != nil {
 		s.log.Errorf("error generate message - sync %s", err)
 		return err
@@ -67,7 +67,7 @@ func (s *SyncerNews) Sync(ctx context.Context) error {
 	return nil
 }
 
-func generateMessage(articles []article) (*pubsub.Message, error) {
+func generateMessage(articles []NewsletterNewsItem) (*pubsub.Message, error) {
 	message, err := pubsub.NewSystemMessage()
 	if err != nil {
 		return nil, err

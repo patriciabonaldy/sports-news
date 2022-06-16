@@ -39,7 +39,6 @@ func (s subscriber) Subscriber(ctx context.Context, callback func(ctx context.Co
 	for {
 		select {
 		case m := <-chMsg:
-			log.Println(m)
 			err := callback(ctx, m)
 			if err != nil {
 				log.Println(err)

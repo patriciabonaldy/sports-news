@@ -1,15 +1,50 @@
 package providers
 
-type messageSync struct {
-	Text              string `json:",chardata"`
-	ArticleURL        string `json:"article_url"`
-	NewsArticleID     string `json:"news_article_id"`
-	PublishDate       string `json:"publish_date"`
-	Taxonomies        string `json:"taxonomies"`
-	TeaserText        string `json:"teaser_text"`
-	ThumbnailImageURL string `json:"thumbnail_image_url"`
-	Title             string `json:"title"`
-	OptaMatchId       string `json:"opta_match_id"`
-	LastUpdateDate    string `json:"last_update_date"`
-	IsPublished       bool   `json:"is_published"`
+import "encoding/xml"
+
+type NewsletterNewsItem struct {
+	Text              string `xml:",chardata"`
+	ArticleURL        string `xml:"ArticleURL"`
+	NewsArticleID     string `xml:"NewsArticleID"`
+	PublishDate       string `xml:"PublishDate"`
+	Taxonomies        string `xml:"Taxonomies"`
+	TeaserText        string `xml:"TeaserText"`
+	ThumbnailImageURL string `xml:"ThumbnailImageURL"`
+	Title             string `xml:"Title"`
+	OptaMatchId       string `xml:"OptaMatchId"`
+	LastUpdateDate    string `xml:"LastUpdateDate"`
+	IsPublished       string `xml:"IsPublished"`
+}
+
+type NewsArticleInformation struct {
+	XMLName        xml.Name `xml:"NewsArticleInformation"`
+	Text           string   `xml:",chardata"`
+	ClubName       string   `xml:"ClubName"`
+	ClubWebsiteURL string   `xml:"ClubWebsiteURL"`
+	NewsArticle    struct {
+		Text              string `xml:",chardata"`
+		ArticleURL        string `xml:"ArticleURL"`
+		NewsArticleID     string `xml:"NewsArticleID"`
+		PublishDate       string `xml:"PublishDate"`
+		Taxonomies        string `xml:"Taxonomies"`
+		TeaserText        string `xml:"TeaserText"`
+		Subtitle          string `xml:"Subtitle"`
+		ThumbnailImageURL string `xml:"ThumbnailImageURL"`
+		Title             string `xml:"Title"`
+		BodyText          struct {
+			Text string `xml:",chardata"`
+			P    []struct {
+				Text string `xml:",chardata"`
+				A    struct {
+					Text string `xml:",chardata"`
+					Href string `xml:"href,attr"`
+				} `xml:"a"`
+			} `xml:"p"`
+		} `xml:"BodyText"`
+		GalleryImageURLs string `xml:"GalleryImageURLs"`
+		VideoURL         string `xml:"VideoURL"`
+		OptaMatchId      string `xml:"OptaMatchId"`
+		LastUpdateDate   string `xml:"LastUpdateDate"`
+		IsPublished      string `xml:"IsPublished"`
+	} `xml:"NewsArticle"`
 }
