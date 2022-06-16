@@ -2,11 +2,12 @@ package mongo
 
 import (
 	"context"
+	"log"
+
 	"github.com/pkg/errors"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"gopkg.in/mgo.v2/bson"
-	"log"
 
 	"github.com/patriciabonaldy/sports-news/internal"
 	"github.com/patriciabonaldy/sports-news/internal/config"

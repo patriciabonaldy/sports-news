@@ -2,21 +2,21 @@ package handler
 
 import (
 	"encoding/json"
-	"github.com/patriciabonaldy/sports-news/internal"
-	"github.com/patriciabonaldy/sports-news/internal/business"
-	"github.com/patriciabonaldy/sports-news/internal/platform/logger"
-	"github.com/patriciabonaldy/sports-news/internal/platform/storage/storagemocks"
 	"net/http"
 	"net/http/httptest"
 	"testing"
 	"time"
 
+	"github.com/gin-gonic/gin"
 	"github.com/pkg/errors"
+	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 	"github.com/stretchr/testify/require"
 
-	"github.com/gin-gonic/gin"
-	"github.com/stretchr/testify/assert"
+	"github.com/patriciabonaldy/sports-news/internal"
+	"github.com/patriciabonaldy/sports-news/internal/business"
+	"github.com/patriciabonaldy/sports-news/internal/platform/logger"
+	"github.com/patriciabonaldy/sports-news/internal/platform/storage/storagemocks"
 )
 
 var timeN = time.Now()

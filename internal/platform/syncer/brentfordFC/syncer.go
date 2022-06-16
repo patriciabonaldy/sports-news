@@ -4,9 +4,9 @@ import (
 	"context"
 	"encoding/json"
 	"encoding/xml"
-	"github.com/patriciabonaldy/sports-news/internal/config"
 	"io"
 
+	"github.com/patriciabonaldy/sports-news/internal/config"
 	"github.com/patriciabonaldy/sports-news/internal/platform/genericClient"
 	"github.com/patriciabonaldy/sports-news/internal/platform/logger"
 	"github.com/patriciabonaldy/sports-news/internal/platform/pubsub"

@@ -3,9 +3,6 @@ package bootstrap
 import (
 	"context"
 	"errors"
-	"github.com/patriciabonaldy/sports-news/internal/business"
-	"github.com/patriciabonaldy/sports-news/internal/platform/server"
-	"github.com/patriciabonaldy/sports-news/internal/platform/server/handler"
 	"log"
 	"strings"
 	"time"
@@ -13,10 +10,13 @@ import (
 	"github.com/robfig/cron/v3"
 
 	"github.com/patriciabonaldy/big_queue/pkg/kafka"
+	"github.com/patriciabonaldy/sports-news/internal/business"
 	"github.com/patriciabonaldy/sports-news/internal/config"
 	"github.com/patriciabonaldy/sports-news/internal/platform/genericClient"
 	"github.com/patriciabonaldy/sports-news/internal/platform/logger"
 	"github.com/patriciabonaldy/sports-news/internal/platform/pubsub"
+	"github.com/patriciabonaldy/sports-news/internal/platform/server"
+	"github.com/patriciabonaldy/sports-news/internal/platform/server/handler"
 	"github.com/patriciabonaldy/sports-news/internal/platform/storage/mongo"
 	"github.com/patriciabonaldy/sports-news/internal/providers"
 )

@@ -2,6 +2,7 @@ package business
 
 import (
 	"context"
+
 	"github.com/patriciabonaldy/sports-news/internal"
 	"github.com/patriciabonaldy/sports-news/internal/platform/logger"
 )

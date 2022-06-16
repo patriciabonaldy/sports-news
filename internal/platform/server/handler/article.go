@@ -1,12 +1,12 @@
 package handler
 
 import (
-	"github.com/patriciabonaldy/sports-news/internal/business"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 
 	"github.com/patriciabonaldy/sports-news/internal"
+	"github.com/patriciabonaldy/sports-news/internal/business"
 	"github.com/patriciabonaldy/sports-news/internal/platform/logger"
 )
 

@@ -1,8 +1,9 @@
 package main
 
 import (
-	"github.com/patriciabonaldy/sports-news/cmd/bootstrap"
 	"log"
+
+	"github.com/patriciabonaldy/sports-news/cmd/bootstrap"
 )
 
 func main() {

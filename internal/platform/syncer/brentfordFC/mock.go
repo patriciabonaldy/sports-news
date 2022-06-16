@@ -3,12 +3,12 @@ package brentfordFC
 import (
 	"context"
 	"errors"
-	"github.com/patriciabonaldy/sports-news/internal/platform/logger"
 	"io"
 	"net/http"
 	"strings"
 
 	"github.com/patriciabonaldy/sports-news/internal/platform/genericClient"
+	"github.com/patriciabonaldy/sports-news/internal/platform/logger"
 )
 
 type mockClient struct {

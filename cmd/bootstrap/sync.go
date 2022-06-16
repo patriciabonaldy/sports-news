@@ -2,16 +2,17 @@ package bootstrap
 
 import (
 	"context"
-	"github.com/patriciabonaldy/big_queue/pkg/kafka"
-	"github.com/patriciabonaldy/sports-news/internal/platform/genericClient"
-	"github.com/patriciabonaldy/sports-news/internal/platform/pubsub"
-	"github.com/patriciabonaldy/sports-news/internal/platform/syncer/brentfordFC"
+
 	"github.com/pkg/errors"
 	"github.com/robfig/cron/v3"
 	"strings"
 
+	"github.com/patriciabonaldy/big_queue/pkg/kafka"
 	"github.com/patriciabonaldy/sports-news/internal/config"
+	"github.com/patriciabonaldy/sports-news/internal/platform/genericClient"
 	"github.com/patriciabonaldy/sports-news/internal/platform/logger"
+	"github.com/patriciabonaldy/sports-news/internal/platform/pubsub"
+	"github.com/patriciabonaldy/sports-news/internal/platform/syncer/brentfordFC"
 )
 
 const (
