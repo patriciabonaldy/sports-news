@@ -14,8 +14,8 @@ type Storage struct {
 	mock.Mock
 }
 
-// GetByID provides a mock function with given fields: ctx, ID
-func (_m *Storage) GetByID(ctx context.Context, ID string) (internal.ArticleNews, error) {
+// GetArticleByID provides a mock function with given fields: ctx, ID
+func (_m *Storage) GetArticleByID(ctx context.Context, ID string) (internal.ArticleNews, error) {
 	ret := _m.Called(ctx, ID)
 
 	var r0 internal.ArticleNews
@@ -35,22 +35,31 @@ func (_m *Storage) GetByID(ctx context.Context, ID string) (internal.ArticleNews
 	return r0, r1
 }
 
-// Save provides a mock function with given fields: ctx, news
-func (_m *Storage) Save(ctx context.Context, news internal.ArticleNews) error {
-	ret := _m.Called(ctx, news)
+// GetArticles provides a mock function with given fields: ctx
+func (_m *Storage) GetArticles(ctx context.Context) ([]internal.ArticleNews, error) {
+	ret := _m.Called(ctx)
 
-	var r0 error
-	if rf, ok := ret.Get(0).(func(context.Context, internal.ArticleNews) error); ok {
-		r0 = rf(ctx, news)
+	var r0 []internal.ArticleNews
+	if rf, ok := ret.Get(0).(func(context.Context) []internal.ArticleNews); ok {
+		r0 = rf(ctx)
 	} else {
-		r0 = ret.Error(0)
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).([]internal.ArticleNews)
+		}
 	}
 
-	return r0
+	var r1 error
+	if rf, ok := ret.Get(1).(func(context.Context) error); ok {
+		r1 = rf(ctx)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
 }
 
-// Update provides a mock function with given fields: ctx, news
-func (_m *Storage) Update(ctx context.Context, news internal.ArticleNews) error {
+// Save provides a mock function with given fields: ctx, news
+func (_m *Storage) Save(ctx context.Context, news internal.ArticleNews) error {
 	ret := _m.Called(ctx, news)
 
 	var r0 error

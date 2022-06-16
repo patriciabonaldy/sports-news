@@ -65,10 +65,10 @@ func TestRepository_Save(t *testing.T) {
 	err := repo.Save(ctx, article)
 	assert.NoError(t, err)
 
-	got, err := repo.GetByID(ctx, article.NewsID)
+	got, err := repo.GetArticleByID(ctx, article.NewsID)
 	assert.NoError(t, err)
 
-	want, err := repo.GetByID(ctx, got.NewsID)
+	want, err := repo.GetArticleByID(ctx, got.NewsID)
 	assert.NoError(t, err)
 	assert.Equal(t, reflect.DeepEqual(want, got), true)
 }

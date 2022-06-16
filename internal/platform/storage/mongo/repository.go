@@ -2,11 +2,11 @@ package mongo
 
 import (
 	"context"
-
 	"github.com/pkg/errors"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"gopkg.in/mgo.v2/bson"
+	"log"
 
 	"github.com/patriciabonaldy/sports-news/internal"
 	"github.com/patriciabonaldy/sports-news/internal/config"
@@ -47,7 +47,36 @@ func NewDBStorage(ctx context.Context, cfg *config.Database, log logger.Logger) 
 	}, nil
 }
 
-func (r *Repository) GetByID(ctx context.Context, articleID string) (internal.ArticleNews, error) {
+func (r *Repository) GetArticles(ctx context.Context) ([]internal.ArticleNews, error) {
+	opts := options.Find()
+	cursor, err := r.getCollection(eventCollectionName).Find(context.TODO(), bson.M{}, opts)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	var results []internal.ArticleNews
+	for cursor.Next(context.TODO()) {
+		//Create a value into which the single document can be decoded
+		var elem ArticleNews
+		err = cursor.Decode(&elem)
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		results = append(results, parseToBusinessArticleNews(elem))
+	}
+
+	if err := cursor.Err(); err != nil {
+		log.Fatal(err)
+	}
+
+	//Close the cursor once finished
+	cursor.Close(ctx)
+
+	return results, nil
+}
+
+func (r *Repository) GetArticleByID(ctx context.Context, articleID string) (internal.ArticleNews, error) {
 	var result ArticleNews
 
 	err := r.getCollection(eventCollectionName).
