@@ -71,6 +71,55 @@ func Test_service_GetArticleByID(t *testing.T) {
 	}
 }
 
+func Test_service_GetArticles(t *testing.T) {
+	tests := []struct {
+		name    string
+		repo    func() internal.Storage
+		want    []internal.ArticleNews
+		wantErr bool
+	}{
+		{
+			name: "error getting article",
+			repo: func() internal.Storage {
+				repoMock := new(storagemocks.Storage)
+				repoMock.On("GetArticles", mock.Anything).
+					Return(nil, errors.New("something unexpected happened"))
+
+				return repoMock
+
+			},
+			want:    nil,
+			wantErr: true,
+		},
+		{
+			name: "success",
+			repo: func() internal.Storage {
+				repoMock := new(storagemocks.Storage)
+				repoMock.On("GetArticles", mock.Anything).
+					Return([]internal.ArticleNews{mockArticle()}, nil)
+
+				return repoMock
+
+			},
+			want: []internal.ArticleNews{mockArticle()},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			s := NewService(tt.repo(), logger.New())
+			got, err := s.GetArticles(context.Background())
+			if (err != nil) != tt.wantErr {
+				t.Errorf("GetArticles() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+
+			if !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("GetArticles() got = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
 func mockArticle() internal.ArticleNews {
 	return internal.ArticleNews{
 		NewsID:         "641838",

@@ -21,12 +21,14 @@ import (
 
 var timeN = time.Now()
 
-func TestHandler_Get(t *testing.T) {
+func TestHandler_GetArticleByID(t *testing.T) {
 	repositoryMock := new(storagemocks.Storage)
 	repositoryMock.On("GetArticleByID", mock.Anything, mock.Anything).
-		Return(internal.ArticleNews{}, errors.New("something unexpected happened")).Once()
+		Return(&internal.ArticleNews{}, errors.New("something unexpected happened")).Once()
+
+	articleMock := mockArticle()
 	repositoryMock.On("GetArticleByID", mock.Anything, mock.Anything).
-		Return(mockArticle(), nil).Once()
+		Return(&articleMock, nil).Once()
 	log := logger.New()
 	svc := business.NewService(repositoryMock, log)
 	handler := New(svc, log)
@@ -87,6 +89,65 @@ func TestHandler_Get(t *testing.T) {
 		}
 		assert.Equal(t, http.StatusOK, res.StatusCode)
 		assert.Equal(t, resp.NewsID, want.NewsID)
+	})
+}
+
+func TestHandler_GetArticles(t *testing.T) {
+	repositoryMock := new(storagemocks.Storage)
+	repositoryMock.On("GetArticles", mock.Anything).
+		Return(nil, errors.New("something unexpected happened")).Once()
+
+	repositoryMock.On("GetArticles", mock.Anything).
+		Return([]internal.ArticleNews{mockArticle()}, nil).Once()
+	log := logger.New()
+	svc := business.NewService(repositoryMock, log)
+	handler := New(svc, log)
+	gin.SetMode(gin.TestMode)
+	r := gin.New()
+	r.GET("/articles", handler.GetArticles())
+
+	t.Run("given a error it returns 500", func(t *testing.T) {
+		req, err := http.NewRequest(http.MethodGet, "/articles", nil)
+		require.NoError(t, err)
+
+		rec := httptest.NewRecorder()
+		r.ServeHTTP(rec, req)
+
+		res := rec.Result()
+		defer res.Body.Close()
+
+		assert.Equal(t, http.StatusInternalServerError, res.StatusCode)
+	})
+
+	t.Run("given a valid request it returns 200", func(t *testing.T) {
+		req, err := http.NewRequest(http.MethodGet, "/articles", nil)
+		require.NoError(t, err)
+
+		rec := httptest.NewRecorder()
+		r.ServeHTTP(rec, req)
+
+		res := rec.Result()
+		defer res.Body.Close()
+
+		var resp []Response
+		err = json.NewDecoder(res.Body).Decode(&resp)
+		require.NoError(t, err)
+
+		want := []Response{
+			{
+				NewsID:         "641838",
+				ClubName:       "Brentford",
+				ClubWebsiteURL: "https://www.brentfordfc.com",
+				ArticleURL:     "https://www.brentfordfc.com/news/2022/june/pontus-explains-how-fatherhood-has-calmed-him-down",
+				Title:          "Pontus explains",
+				Subtitle:       "Pontus explains ",
+				BodyText:       "Pontus explains Pontus explains Pontus explains",
+				IsPublished:    true,
+				CreateAt:       timeN,
+			},
+		}
+		assert.Equal(t, http.StatusOK, res.StatusCode)
+		assert.Equal(t, len(resp), len(want))
 	})
 }
 
