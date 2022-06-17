@@ -2,8 +2,11 @@ package providers
 
 import (
 	"context"
+	"encoding/json"
 	"reflect"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 
 	"github.com/patriciabonaldy/sports-news/internal"
 	"github.com/patriciabonaldy/sports-news/internal/platform/genericClient"
@@ -79,51 +82,101 @@ func Test_pipeLine_taskFetch(t *testing.T) {
 }
 
 func Test_pipeLine_taskParse(t *testing.T) {
-	type fields struct {
-		repository internal.Storage
-		client     genericClient.Client
-		log        logger.Logger
-	}
-	type args struct {
-		ch1 chan []byte
-	}
 	tests := []struct {
-		name   string
-		fields fields
-		args   args
-		want   chan NewsArticleInformation
+		name       string
+		ch1        func() chan []byte
+		want       func() chan NewsArticleInformation
+		expectData bool
 	}{
-		// TODO: Add test cases.
+		{
+			name: "want error unmarshal",
+			ch1: func() chan []byte {
+				ch2 := make(chan []byte)
+				go func() {
+					ch2 <- []byte(`<>`)
+				}()
+				return ch2
+			},
+			want: func() chan NewsArticleInformation {
+				return make(chan NewsArticleInformation)
+			},
+		},
+		{
+			name: "success",
+			ch1: func() chan []byte {
+				ch2 := make(chan []byte)
+				go func() {
+					ch2 <- []byte(`<NewsArticleInformation>
+									<ClubName>Brentford</ClubName>
+									<ClubWebsiteURL>https://www.brentfordfc.com</ClubWebsiteURL>
+									<NewsArticle>
+									<ArticleURL>https://www.brentfordfc.com/news/2017/june/be-there-in-201718/</ArticleURL>
+									<NewsArticleID>173860</NewsArticleID>
+									<PublishDate>2017-06-05 10:33:39</PublishDate>
+									<Taxonomies>Ticket News</Taxonomies>
+									<TeaserText/>
+									<Subtitle/>
+									<ThumbnailImageURL/>
+									<Title>Be There for our 2017/18 season</Title>
+									<BodyText/>
+									<GalleryImageURLs/>
+									<VideoURL/>
+									<OptaMatchId/>
+									<LastUpdateDate>2019-09-02 03:36:54</LastUpdateDate>
+									<IsPublished>True</IsPublished>
+									</NewsArticle>
+									</NewsArticleInformation>
+											`)
+				}()
+				return ch2
+			},
+			want: func() chan NewsArticleInformation {
+				ch2 := make(chan NewsArticleInformation)
+				go func() {
+					ch2 <- NewsArticleInformation{
+						ClubName:       "Brentford",
+						ClubWebsiteURL: "https://www.brentfordfc.com",
+						NewsArticle: NewsArticle{
+							Text:           "\n\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t",
+							ArticleURL:     "https://www.brentfordfc.com/news/2017/june/be-there-in-201718/",
+							NewsArticleID:  "173860",
+							PublishDate:    "2017-06-05 10:33:39",
+							Taxonomies:     "Ticket News",
+							Title:          "Be There for our 2017/18 season",
+							LastUpdateDate: "2019-09-02 03:36:54",
+							IsPublished:    "True",
+						},
+					}
+				}()
+				return ch2
+			},
+			expectData: true,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			p := &pipeLine{
-				repository: tt.fields.repository,
-				client:     tt.fields.client,
-				log:        tt.fields.log,
+				log: logger.New(),
 			}
-			if got := p.taskParse(tt.args.ch1); !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("taskParse() = %v, want %v", got, tt.want)
-			}
-		})
-	}
-}
+			ch := p.taskParse(tt.ch1())
+			chWant := tt.want()
 
-func Test_toArticle(t *testing.T) {
-	type args struct {
-		msg NewsArticleInformation
-	}
-	tests := []struct {
-		name string
-		args args
-		want internal.ArticleNews
-	}{
-		// TODO: Add test cases.
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			if got := toArticle(tt.args.msg); !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("toArticle() = %v, want %v", got, tt.want)
+			var got string
+			var want string
+			if tt.expectData {
+				aiGot := <-ch
+				bGot, err := json.Marshal(aiGot.NewsArticle)
+				assert.NoError(t, err)
+				got = string(bGot)
+
+				aiWant := <-chWant
+				bWant, err := json.Marshal(aiWant.NewsArticle)
+				assert.NoError(t, err)
+				want = string(bWant)
+			}
+
+			if !reflect.DeepEqual(got, want) {
+				t.Errorf("taskParse() got= %v\n, want %v", got, want)
 			}
 		})
 	}

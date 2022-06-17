@@ -75,7 +75,7 @@ func (a *ArticleHandler) GetArticleByID() gin.HandlerFunc {
 }
 
 func toResponseArticles(articleNews []internal.ArticleNews) []Response {
-	var resp []Response
+	var resp = make([]Response, 0, 1)
 	for _, a := range articleNews {
 		resp = append(resp, toResponse(&a))
 	}

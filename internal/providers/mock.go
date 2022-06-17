@@ -3,10 +3,11 @@ package providers
 import (
 	"context"
 	"errors"
-	"github.com/patriciabonaldy/sports-news/internal/platform/genericClient"
 	"io"
 	"net/http"
 	"strings"
+
+	"github.com/patriciabonaldy/sports-news/internal/platform/genericClient"
 )
 
 type mockClient struct {

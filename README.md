@@ -18,16 +18,24 @@ the database.
 
 ### Setup:
 
-- Run follow command:
+ 1.- Run follow command:
 
 ~~~bash
 make setup
 ~~~
 
 
-- Create a topic
+2.- Create a topic
 ~~~bash
 make create_topics
+~~~
+
+### Documentation API
+
+~~~bash
+"/health"       --> return health of app
+"/articles"     --> return a list of articles
+"/articles/:id" --> return an article
 ~~~
 
 ### Testing
@@ -44,7 +52,7 @@ make test
 * [Docker](https://www.docker.com/) - Docker
 * [Docker test](https://github.com/ory/dockertest/) - Docker test
 * [uuid](https://github.com/google/uuid/) - uuid
-* [cron](https://github.com/robfig/cron/v3) - cron
+* [cron](https://github.com/robfig/cron) - cron
 * [testify](https://github.com/stretchr/testify) - testify
 * [big_queue](https://github.com/patriciabonaldy/big_queue/) - My own library to Publisher/consumer in kafka or sqs
 
