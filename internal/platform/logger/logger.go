@@ -1,6 +1,7 @@
 package logger
 
 import (
+	"github.com/pkg/errors"
 	"log"
 	"os"
 )
@@ -8,6 +9,7 @@ import (
 // Logger is the standard logger interface.
 type Logger interface {
 	Error(args ...interface{})
+	ErrorTrace(err error)
 	Errorf(format string, args ...interface{})
 	Info(args ...interface{})
 	Infof(format string, args ...interface{})
@@ -25,6 +27,10 @@ func New() Logger {
 
 func (l *lg) Error(args ...interface{}) {
 	l.logger.Println(args...)
+}
+
+func (l *lg) ErrorTrace(err error) {
+	l.Error(errors.Cause(err))
 }
 
 func (l *lg) Errorf(format string, args ...interface{}) {
